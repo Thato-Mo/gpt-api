@@ -7,3 +7,5 @@ def pdf_to_text(pdf_path):
         for page in pdf.pages:
             text += page.extract_text()
     return text
+
+
