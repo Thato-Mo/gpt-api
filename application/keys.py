@@ -1,1 +1,1 @@
-london_key = "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"
+london_key = ""
