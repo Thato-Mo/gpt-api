@@ -1,24 +1,20 @@
 from flask import Flask, render_template
-import sys
-
+from api import *
 app = Flask(__name__)
 
-def open_text_file(file_path):
-    with open(file_path, 'r') as file:
-        text = file.read()
-    return text
 
 @app.route('/')
 def index():
-
-    text = open_text_file(sys.argv[1])
+    pdf_path = sys.argv[1]
+    text = pdf_to_text(pdf_path)
+    extracted_info = gpt_request(text)
 
     data = {
-        'text': text,
+        'doctor': extracted_info.get('doctor', ''),
+        'patient': extracted_info.get('patient', ''),
+        'symptoms': extracted_info.get('symptoms', ''),
     }
     return render_template('index.html', data=data)
 
 if __name__ == '__main__':
-    # index(sys.argv[1])
-    app.run(debug=True)
-
+     app.run(debug=True)
